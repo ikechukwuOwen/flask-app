@@ -9,4 +9,4 @@ app.config['SECRET_KEY'] = 'MaziLoli'
 
 @app.route("/", methods = ["GET", "POST"])
 def home():
-    return "Hello, LOlipop"
+    return render_template('index.html')
