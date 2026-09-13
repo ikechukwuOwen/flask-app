@@ -6,6 +6,9 @@
     <body>
         <h1>Lolipop</h1>
         <p>lets get working</p>
-        <a class="button" href="">Sign In</a>
+        <div >
+        <a class="button" href="{{ url_for('login') }}">Login</a>
+        <a class="button" href="{{ url_for('sign_up') }}">Sign up</a>
+        </div>
     </body>
 </html>

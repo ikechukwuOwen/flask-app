@@ -7,6 +7,5 @@ from wtforms import StringField, SubmitField
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'MaziLoli'
 
-@app.route("/", methods = ["GET", "POST"])
-def home():
-    return render_template('index.html')
+
+import routes
