@@ -2,3 +2,5 @@
 lolipop
 __pycache__/
 .env
+instance/
+*.db
