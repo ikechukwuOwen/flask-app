@@ -16,3 +16,7 @@ def login():
 def sign_up():
     my_form = SignUP()
     return render_template('signup.html', form = my_form)
+
+@app.route('/home_page', methods = ["GET", "POST"])
+def home_page():
+    return "<h1> na ndi na acho ike </h1>"
