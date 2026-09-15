@@ -7,8 +7,8 @@
         <h1>Lolipop</h1>
         <p>lets get working</p>
         <div >
-        <a class="button" href="{{ url_for('login') }}">Login</a>
-        <a class="button" href="{{ url_for('sign_up') }}">Sign up</a>
+        <a class="button" href="{{ url_for('login', next = '/home_page') }}">Login</a>
+        <a class="button" href="{{ url_for('sign_up', next ='/login') }}">Sign up</a>
         </div>
     </body>
 </html>

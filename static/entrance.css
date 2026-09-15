@@ -48,3 +48,22 @@ body {
 .entrance_form input[type="submit"]:hover {
     background-color: #dd336a;
 }
+
+.entrance_form .remember-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18px;
+}
+
+.entrance_form .remember-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #ff006f;
+}
+
+.entrance_form .remember-row label {
+    color: #3d1f2b;
+    cursor: pointer;
+}
