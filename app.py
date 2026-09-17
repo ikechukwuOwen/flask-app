@@ -6,7 +6,8 @@ import os
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'MaziLoli'
+
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-only-key")
 database_url = os.environ.get("DATABASE_URL", "sqlite:///loliDB.db")
 
 if database_url.startswith("postgres://"):
