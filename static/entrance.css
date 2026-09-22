@@ -5,7 +5,7 @@ body {
 }
 
 .entrance_form {
-    width: 350px;
+    width: min(350px, calc(100% - 32px));
     margin: 80px auto;
     padding: 30px;
     background: white;
@@ -43,6 +43,13 @@ body {
     box-sizing: border-box;
     font: inherit;
     font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .entrance_form {
+        margin: 32px auto;
+        padding: 24px 20px;
+    }
 }
 
 .entrance_form input[type="submit"]:hover {

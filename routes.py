@@ -2,7 +2,7 @@ from app import app, db, login_manager
 from flask import Flask, render_template, flash, redirect, url_for, request
 from forms import SignUP, Login
 from models import User
-from flask_login import login_user
+from flask_login import login_user, login_required, current_user, logout_user
 from urllib.parse import urlsplit
 
 @login_manager.user_loader
@@ -16,6 +16,8 @@ def home():
 
 @app.route('/login', methods =["GET", "POST"] )
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home_page'))
     form = Login()
     if form.validate_on_submit():
         user = User.query.filter_by(username = form.username.data).first()
@@ -31,6 +33,8 @@ def login():
 
 @app.route('/sign_up', methods = ["GET", "POST"])
 def sign_up():
+    if current_user.is_authenticated:
+            return redirect(url_for('home_page'))
     form = SignUP()
     if form.validate_on_submit():
         user = User(username = form.username.data, email = form.email.data)
@@ -42,5 +46,18 @@ def sign_up():
     return render_template('signup.html', form = form)
 
 @app.route('/home_page', methods = ["GET", "POST"])
+@login_required
 def home_page():
-    return "<h1> na ndi na acho ike </h1>"
+    user = User.query.filter_by( username = current_user.username).first()
+    return render_template('home.html', user = user.username, group = False)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
+@app.route('/user/<username>', methods = ["GET", "POST"])
+@login_required
+def user(username):
+    user = User.query.filter_by(username= username).first()
+    return render_template('user.html', user = user)
