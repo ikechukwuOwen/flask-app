@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 22px 6%;
+    box-sizing: border-box;
+}
+
+header a {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+header a:hover {
+    color: #ff006f;
+}
+
+.group-card {
+    width: min(600px, calc(100% - 32px));
+    margin: 8vh auto;
+    padding: 32px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.group-card h1 {
+    margin: 0 0 16px;
+    color: #333;
+    text-align: center;
+}
+
+.group-description {
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+.group-details {
+    margin: 0 0 24px;
+    padding: 16px;
+    background: #f4f4f4;
+    border-radius: 8px;
+}
+
+.group-details p {
+    margin: 8px 0;
+}
+
+.members-title {
+    color: #333;
+}
+
+.member-list {
+    margin: 0;
+    padding-left: 24px;
+}
+
+.member-list a {
+    color: #ff006f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.member-list a:hover {
+    color: #dd336a;
+}
+
+@media (max-width: 480px) {
+    header {
+        justify-content: center;
+    }
+
+    .group-card {
+        margin: 4vh auto;
+        padding: 24px 20px;
+    }
+}

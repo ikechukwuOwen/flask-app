@@ -43,6 +43,36 @@ header a:hover {
     font-size: 2.4rem;
 }
 
+.profile-card p {
+    margin: 14px 0;
+}
+
+.profile-card h2 {
+    margin: 28px 0 12px;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.profile-card ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.profile-card li {
+    margin: 8px 0;
+}
+
+.profile-card li a {
+    color: #ff006f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.profile-card li a:hover {
+    color: #dd336a;
+}
+
 @media (max-width: 480px) {
     header {
         justify-content: center;

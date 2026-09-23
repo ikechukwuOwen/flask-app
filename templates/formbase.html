@@ -3,10 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
+        <title>{% block title %}Lolipop{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for ('static', filename = 'entrance.css') }}">
     </head>
     <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         {% block content %} {% endblock %}
     </body>                  
 </html>

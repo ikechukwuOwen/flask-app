@@ -4,21 +4,27 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ group.name }}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='user.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='group.css') }}">
     </head>
     <body>
         <header>
             <a href="{{ url_for('home_page') }}">Home</a>
         </header>
-        <main>
+        <main class="group-card">
             <h1>{{ group.name }}</h1>
-            <p>{{ group.description }}</p>
-            <p>Group Code: {{ group.code }}</p>
-            <p>Members: {{ group.members|length }}</p>
-            <h2>Members:</h2>
-            <ul>
+            <p class="group-description">{{ group.description }}</p>
+            <div class="group-details">
+                <p><strong>Group Code:</strong> {{ group.code }}</p>
+                <p><strong>Members:</strong> {{ group.members|length }}</p>
+            </div>
+            <h2 class="members-title">Members</h2>
+            <ul class="member-list">
                 {% for member in group.members %}
-                    <li>{{ member.username }}</li>
+                    <li>
+                        <a href="{{ url_for('user', username=member.username) }}">
+                            {{ member.username }}
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </main>

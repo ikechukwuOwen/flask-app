@@ -7,6 +7,21 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.flash-messages {
+    width: min(600px, calc(100% - 32px));
+    margin: 24px auto 0;
+    color: #3d1f2b;
+    text-align: center;
+}
+
+.flash-messages p {
+    margin: 0 0 8px;
+    padding: 10px 14px;
+    background: #ffd9e5;
+    border: 1px solid #ff006f;
+    border-radius: 8px;
+}
+
 header {
     display: flex;
     justify-content: flex-end;

@@ -34,12 +34,22 @@ def sign_up():
             return redirect(url_for('home_page'))
     form = SignUP()
     if form.validate_on_submit():
+        existing_user = User.query.filter(
+            (User.username == form.username.data)
+            | (User.email == form.email.data)
+        ).first()
+        if existing_user:
+            if existing_user.username == form.username.data:
+                flash('Username already exists.')
+            else:
+                flash('Email already exists.')
+            return redirect(url_for('sign_up'))
         user = User(username = form.username.data, email = form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash('Congratulations You have been registered')
-        return redirect(url_for('home_page'))
+        return redirect(url_for('login'))
     return render_template('signup.html', form = form)
 
 @app.route('/home_page', methods = ["GET", "POST"])
@@ -69,9 +79,10 @@ def create_group():
         group = Group(name=form.groupname.data, description=form.description.data, owner_id=current_user.id)
         group.generate_group_code()  # Generate a unique group code
         db.session.add(group)
+        group.members.append(current_user)
         db.session.commit()
         flash('Group created successfully!')
-        return redirect(url_for('home_page'))
+        return redirect(url_for('group_page', group_id=group.id))
     return render_template('create_group.html', form=form)
 
 @app.route('/join_group', methods = ["GET", "POST"])
