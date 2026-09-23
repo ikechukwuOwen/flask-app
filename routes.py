@@ -1,13 +1,10 @@
 from app import app, db, login_manager
-from flask import Flask, render_template, flash, redirect, url_for, request
-from forms import SignUP, Login
-from models import User
+from flask import  render_template, flash, redirect, url_for, request
+from forms import SignUP, Login, CreateGroup, JoinGroup
+from models import User, Group
 from flask_login import login_user, login_required, current_user, logout_user
 from urllib.parse import urlsplit
 
-@login_manager.user_loader
-def load_user(user_id):
-    return db.session.get(User, int(user_id))
 
 @app.route("/", methods = ["GET", "POST"])
 def home():
@@ -60,4 +57,49 @@ def logout():
 @login_required
 def user(username):
     user = User.query.filter_by(username= username).first()
-    return render_template('user.html', user = user)
+    group = Group.query.filter(Group.members.contains(user)).all()
+
+    return render_template('user.html', user = user, group = group)
+
+@app.route('/create_group', methods = ["GET", "POST"])
+@login_required
+def create_group():
+    form = CreateGroup()
+    if form.validate_on_submit():
+        group = Group(name=form.groupname.data, description=form.description.data, owner_id=current_user.id)
+        group.generate_group_code()  # Generate a unique group code
+        db.session.add(group)
+        db.session.commit()
+        flash('Group created successfully!')
+        return redirect(url_for('home_page'))
+    return render_template('create_group.html', form=form)
+
+@app.route('/join_group', methods = ["GET", "POST"])
+@login_required
+def join_group():
+    form = JoinGroup()
+    if form.validate_on_submit():
+        group = Group.query.filter_by(name=form.groupname.data).first()
+        if group is None or group.code != form.groupcode.data:
+            flash('Invalid group name or code')
+            return redirect(url_for('join_group'))
+        if group.is_private:
+            flash('This is a private group. Please contact the owner.')
+            return redirect(url_for('join_group'))
+        if current_user in group.members:
+            flash('You are already a member of this group.')
+            return redirect(url_for('join_group'))
+        group.members.append(current_user)
+        db.session.commit()
+        flash('You have joined the group successfully!')
+        return redirect(url_for('home_page'))
+    return render_template('join_group.html', form=form)
+
+@app.route('/group/<int:group_id>', methods=["GET", "POST"])
+@login_required
+def group_page(group_id):
+    group = Group.query.get_or_404(group_id)
+    if current_user not in group.members and current_user != group.owner:
+        flash('You are not a member of this group.')
+        return redirect(url_for('home_page'))
+    return render_template('group.html', group=group)

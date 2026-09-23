@@ -12,6 +12,20 @@
         </header>
         <main class="profile-card">
             <h1>{{ user.username }}'s Profile</h1>
+            <p>Email: {{ user.email }}</p>
+            {% if user.groups %}
+                <p>Groups: {{ user.groups|length }}</p>
+            {% else %}
+                <p>No groups joined yet.</p>
+            {% endif %}
+            {% if user.groups %}
+            <h2>Groups:</h2>
+            <ul>
+                {% for group in user.groups %}
+                    <li><a href="{{ url_for('group_page', group_id=group.id) }}">{{ group.name }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </main>
     </body>
 </html>

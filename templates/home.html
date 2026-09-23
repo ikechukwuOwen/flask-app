@@ -14,8 +14,8 @@
            <h1>Hello! {{ user }}</h1>
            {% if not group %}
            <div class="home-actions">
-               <a class="button" href="">Join Group</a>
-               <a class="button" href="">Create Group</a>
+               <a class="button" href="{{ url_for('join_group') }}">Join Group</a>
+               <a class="button" href="{{ url_for('create_group') }}">Create Group</a>
            </div>
            {% endif %}
        </main>
