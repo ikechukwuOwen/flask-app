@@ -93,8 +93,8 @@ def join_group():
         group_name = form.groupname.data.strip()
         group_code = form.groupcode.data.strip().upper()
         group = Group.query.filter(
-            db.func.lower(Group.name) == group_name.lower(),
-            db.func.lower(Group.code) == group_code.lower()
+            db.func.lower(db.func.trim(Group.name)) == group_name.lower(),
+            db.func.lower(db.func.trim(Group.code)) == group_code.lower()
         ).first()
         if group is None:
             flash('Invalid group name or code')
