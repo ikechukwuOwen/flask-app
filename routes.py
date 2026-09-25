@@ -93,9 +93,10 @@ def join_group():
         group_name = form.groupname.data.strip()
         group_code = form.groupcode.data.strip().upper()
         group = Group.query.filter(
-            db.func.lower(Group.name) == group_name.lower()
+            db.func.lower(Group.name) == group_name.lower(),
+            db.func.lower(Group.code) == group_code.lower()
         ).first()
-        if group is None or group.code != group_code:
+        if group is None:
             flash('Invalid group name or code')
             return redirect(url_for('join_group'))
         if group.is_private:
