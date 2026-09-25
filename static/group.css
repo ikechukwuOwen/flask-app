@@ -8,23 +8,30 @@ body {
 
 header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+    gap: 12px;
     width: 100%;
     padding: 22px 6%;
     box-sizing: border-box;
 }
 
 header a {
-    color: #333;
+    padding: 10px 16px;
+    color: #ff006f;
+    background: white;
+    border: 1px solid #ffb3cc;
+    border-radius: 20px;
     font-weight: bold;
     text-decoration: none;
     transition: color 0.2s;
-    margin-left: 16px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 header a:hover {
-    color: #ff006f;
+    color: white;
+    background-color: #ff006f;
+    border-color: #ff006f;
 }
 
 .group-card {
@@ -60,12 +67,24 @@ header a:hover {
 }
 
 .members-title {
+    margin: 28px 0 12px;
     color: #333;
+    font-size: 1.35rem;
 }
 
 .member-list {
+    display: grid;
+    gap: 8px;
     margin: 0;
-    padding-left: 24px;
+    padding: 0;
+    list-style: none;
+}
+
+.member-list li {
+    padding: 10px 14px;
+    background: #fff5f8;
+    border-left: 4px solid #ff006f;
+    border-radius: 6px;
 }
 
 .member-list a {
@@ -78,13 +97,62 @@ header a:hover {
     color: #dd336a;
 }
 
+.tasks-title {
+    margin: 32px 0 12px;
+    padding-top: 24px;
+    color: #333;
+    border-top: 1px solid #f0d5df;
+    font-size: 1.5rem;
+}
+
+.task-list {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.task-list li {
+    padding: 16px;
+    background: #fff5f8;
+    border: 1px solid #ffb3cc;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(255, 0, 111, 0.08);
+}
+
+.task-list p {
+    margin: 6px 0;
+}
+
+.task-list p:first-child {
+    margin-top: 0;
+    color: #ff006f;
+    font-size: 1.1rem;
+}
+
+.task-list p:last-child {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    color: #3d1f2b;
+    background: #ffd9e5;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
 @media (max-width: 480px) {
     header {
-        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .group-card {
         margin: 4vh auto;
         padding: 24px 20px;
+    }
+
+    .group-card h1 {
+        font-size: 1.8rem;
     }
 }
