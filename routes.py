@@ -1,7 +1,7 @@
 from app import app, db, login_manager
 from flask import  render_template, flash, redirect, url_for, request
-from forms import SignUP, Login, CreateGroup, JoinGroup
-from models import User, Group
+from forms import SignUP, Login, CreateGroup, JoinGroup, CreateTask
+from models import User, Group, Task
 from flask_login import login_user, login_required, current_user, logout_user
 from urllib.parse import urlsplit
 
@@ -68,7 +68,6 @@ def logout():
 def user(username):
     user = User.query.filter_by(username= username).first()
     group = Group.query.filter(Group.members.contains(user)).all()
-
     return render_template('user.html', user = user, group = group)
 
 @app.route('/create_group', methods = ["GET", "POST"])
@@ -119,3 +118,32 @@ def group_page(group_id):
         flash('You are not a member of this group.')
         return redirect(url_for('home_page'))
     return render_template('group.html', group=group)
+
+
+@app.route('/create_task/<int:group_id>', methods=["GET", "POST"])
+@login_required
+def create_task(group_id):
+    group = Group.query.get_or_404(group_id)
+    if current_user not in group.members and current_user != group.owner:
+        flash('You are not a member of this group.')
+        return redirect(url_for('home_page'))
+    form = CreateTask()
+    form.assign_to.choices = [
+        (member.id, member.username)
+        for member in group.members
+    ]
+    if form.validate_on_submit():
+        task = Task(
+            title=form.taskname.data,
+            description=form.description.data,
+            due_date=form.due_date.data,
+            group_id=group.id,
+            creator_id=current_user.id,
+            assignee_id=form.assign_to.data
+        )
+        db.session.add(task)
+        db.session.commit()
+        flash('Task created successfully!')
+        return redirect(url_for('group_page', group_id=group.id))
+    
+    return render_template('create_task.html', form=form, group=group)

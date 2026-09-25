@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, TextAreaField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, TextAreaField, DateField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo 
 
 class SignUP(FlaskForm):
@@ -27,5 +27,9 @@ class JoinGroup(FlaskForm):
     groupcode = StringField('Group Code', validators=[DataRequired()])
     submit = SubmitField('Join Group')
 
-
-
+class CreateTask(FlaskForm):
+    taskname = StringField('Task Name', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    due_date = DateField('Due Date', format='%Y-%m-%d', validators=[DataRequired()])
+    assign_to = SelectField('Assign To',  coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Create Task')

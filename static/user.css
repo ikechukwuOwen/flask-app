@@ -73,6 +73,7 @@ header a:hover {
     color: #dd336a;
 }
 
+
 @media (max-width: 480px) {
     header {
         justify-content: center;

@@ -67,9 +67,21 @@ body {
     }
 }
 
-.entrance_form input[type="submit"]:hover {
-    background-color: #dd336a;
+
+
+.entrance_form select[name="assign_to"] {
+    width: 100%;
+    padding: 12px 42px 12px 14px;
+    margin: 8px 0 15px;
+    color: #3d1f2b;
+    border: 1px solid #3d1f2b;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font: inherit;
+    appearance: auto;
 }
+
 
 .entrance_form .remember-row {
     display: flex;

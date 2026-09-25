@@ -20,6 +20,7 @@ header a {
     font-weight: bold;
     text-decoration: none;
     transition: color 0.2s;
+    margin-left: 16px;
 }
 
 header a:hover {

@@ -10,6 +10,7 @@
     <body>
         <header>
             <a href="{{ url_for('home_page') }}">Home</a>
+            <a href=" {{ url_for('create_task', group_id=group.id) }}">CreateTask</a>
         </header>
         <main class="group-card">
             <h1>{{ group.name }}</h1>
@@ -25,6 +26,19 @@
                         <a href="{{ url_for('user', username=member.username) }}">
                             {{ member.username }}
                         </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <h1 class="tasks-title">Tasks</h1>
+            <ul class="task-list">
+                {% for task in group.tasks %}
+                    <li>
+                        <p><strong>{{ task.title }}</strong></p>
+                        <p>{{ task.description }}</p>
+                        <p>Due Date: {{ task.due_date }}</p>
+                        <p>Assigned to: {{ task.assignee.username }}</p>
+                        <p>Creator: {{ task.creator.username }}</p>
+                        <P>Status: {{ task.status }}</P>
                     </li>
                 {% endfor %}
             </ul>

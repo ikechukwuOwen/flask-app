@@ -30,6 +30,16 @@ class User(UserMixin, db.Model):
       back_populates="owner",
       foreign_keys="Group.owner_id"
 )
+    assigned_tasks = db.relationship(
+        "Task",
+        back_populates="assignee",
+        foreign_keys="Task.assignee_id"
+    )
+    created_tasks = db.relationship(
+        "Task",
+        back_populates="creator",
+        foreign_keys="Task.creator_id"
+    )
 
     def set_password(self, password):
       self.password_hash = generate_password_hash(password)
@@ -74,12 +84,54 @@ class Group( db.Model):
     back_populates="owned_groups",
     foreign_keys=[owner_id]
 )
+   tasks = db.relationship(
+       "Task",
+       back_populates="group",
+       cascade="all, delete-orphan"
+   )
    def generate_group_code(self):
     characters = string.ascii_uppercase + string.digits
     self.code = "".join(
         secrets.choice(characters)
         for _ in range(8)
     )
+
+
+class Task(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   title = db.Column(db.String(120), nullable=False)
+   description = db.Column(db.Text)
+   status = db.Column(db.String(20), nullable=False, default="To do")
+   due_date = db.Column(db.Date)
+   group_id = db.Column(
+      db.Integer,
+      db.ForeignKey("group.id"),
+      nullable=False
+   )
+   assignee_id = db.Column(
+      db.Integer,
+      db.ForeignKey("user.id"),
+      nullable=False
+   )
+   creator_id = db.Column(
+      db.Integer,
+      db.ForeignKey("user.id"),
+      nullable=False
+   )
+   created_at = db.Column(
+      db.DateTime,
+      default=datetime.utcnow,
+      nullable=False
+   )
+   group = db.relationship("Group", back_populates="tasks")
+   assignee = db.relationship(
+      "User",
+      back_populates="assigned_tasks",
+      foreign_keys=[assignee_id]
+   )
+   creator = db.relationship(
+      "User",
+      back_populates="created_tasks",
+      foreign_keys=[creator_id]
+   )
     
-
-

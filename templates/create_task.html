@@ -1,0 +1,33 @@
+{% extends "formbase.html" %}
+{% block content %}
+<div class="entrance_form">
+    <h1>Create Task</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.taskname.label }}<br>
+            {{ form.taskname(size=32) }}
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(cols=40, rows=4) }}
+        </p>
+        <p>
+            {{ form.assign_to.label }}<br>
+            {{ form.assign_to() }}
+        </p>
+        <p>
+            {{ form.due_date.label }}<br>
+            {{ form.due_date() }}
+            {% if form.due_date.errors %}
+                <ul class="errors">
+                    {% for error in form.due_date.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</div>
+{% endblock %}
