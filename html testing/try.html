@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="try.css">
+    </head>
+    
+<body>
+    <button type="button" onclick="document.getElementById('task-menu').showModal()">
+    Task options
+</button>
+
+<dialog id="task-menu">
+    <h2>Task options</h2>
+    <button type="button">Change status</button>
+    <button type="button">Delete task</button>
+
+    <form method="dialog">
+        <button>Close</button>
+    </form>
+</dialog>
+<button id="menu-toggle" aria-controls="side-menu" aria-expanded="false">
+    ☰ Menu
+</button>
+
+<div id="menu-backdrop" class="menu-backdrop"></div>
+
+<nav id="side-menu" class="side-menu" aria-label="Main menu">
+    <button id="menu-close" class="menu-close" aria-label="Close menu">
+        &times;
+    </button>
+
+    <a href="/">Home</a>
+    <a href="/user">Profile</a>
+    <a href="/logout">Log out</a>
+</nav>
+<script>
+    const menu = document.getElementById('side-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    const toggle = document.getElementById('menu-toggle');
+    const close = document.getElementById('menu-close');
+
+    function setMenuOpen(isOpen) {
+        menu.classList.toggle('open', isOpen);
+        backdrop.classList.toggle('open', isOpen);
+        toggle.setAttribute('aria-expanded', isOpen);
+    }
+
+    toggle.addEventListener('click', () => setMenuOpen(true));
+    close.addEventListener('click', () => setMenuOpen(false));
+    backdrop.addEventListener('click', () => setMenuOpen(false));
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenuOpen(false);
+    });
+</script>
+</body>
+</html>

@@ -165,3 +165,13 @@ def update_task_status(task_id):
     else:
         flash('Please select a valid task status.')
     return redirect(url_for('group_page', group_id=task.group_id))
+
+@app.route('/task_history/<int:group_id>', methods=["GET"])
+@login_required
+def task_history(group_id):
+    group = Group.query.get_or_404(group_id)
+    if current_user not in group.members and current_user != group.owner:
+        flash('You are not a member of this group.')
+        return redirect(url_for('home_page'))
+    completed_tasks = Task.query.filter_by(group_id=group.id, status='Done').all()
+    return render_template('task_history.html', group=group, completed_tasks=completed_tasks)

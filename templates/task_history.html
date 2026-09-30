@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='group.css') }}">
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home_page') }}">Home</a>
+        <a href="{{ url_for('group_page', group_id=group.id) }}">Back to Group</a>
+    </header>
+    <main>
+        <h1 class="tasks-title">Task History for {{ group.name }}</h1>
+        <ul class="task-list">
+            {% for task in completed_tasks %}
+                <li>
+                    <p><strong>{{ task.title }}</strong></p>
+                    <p>{{ task.description }}</p>
+                    <p>Due Date: {{ task.due_date }}</p>
+                    <p>Assigned to: {{ task.assignee.username }}</p>
+                    <p>Creator: {{ task.creator.username }}</p>
+                    <p>Status: {{ task.status }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
