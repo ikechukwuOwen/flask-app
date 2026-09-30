@@ -24,7 +24,7 @@ def login():
         login_user(user, remember= form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc:
-            next_page = url_for('home')
+            next_page = url_for('home_page')
         return redirect(next_page) 
     return render_template('login.html', form = form)
 
