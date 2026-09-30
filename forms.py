@@ -33,3 +33,15 @@ class CreateTask(FlaskForm):
     due_date = DateField('Due Date', format='%Y-%m-%d', validators=[DataRequired()])
     assign_to = SelectField('Assign To',  coerce=int, validators=[DataRequired()])
     submit = SubmitField('Create Task')
+
+class TaskStatusForm(FlaskForm):
+    status = SelectField(
+        'Status',
+        choices=[
+            ('To do', 'To do'),
+            ('In progress', 'In progress'),
+            ('Done', 'Done')
+        ],
+        validators=[DataRequired()]
+    )
+    submit = SubmitField('Update Status')

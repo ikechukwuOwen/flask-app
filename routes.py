@@ -1,6 +1,6 @@
 from app import app, db, login_manager
 from flask import  render_template, flash, redirect, url_for, request
-from forms import SignUP, Login, CreateGroup, JoinGroup, CreateTask
+from forms import SignUP, Login, CreateGroup, JoinGroup, CreateTask, TaskStatusForm
 from models import User, Group, Task
 from flask_login import login_user, login_required, current_user, logout_user
 from urllib.parse import urlsplit
@@ -117,7 +117,7 @@ def group_page(group_id):
     if current_user not in group.members and current_user != group.owner:
         flash('You are not a member of this group.')
         return redirect(url_for('home_page'))
-    return render_template('group.html', group=group)
+    return render_template('group.html', group=group, status_form=TaskStatusForm())
 
 
 @app.route('/create_task/<int:group_id>', methods=["GET", "POST"])
@@ -147,3 +147,21 @@ def create_task(group_id):
         return redirect(url_for('group_page', group_id=group.id))
     
     return render_template('create_task.html', form=form, group=group)
+
+
+@app.route('/tasks/<int:task_id>/status', methods=['POST'])
+@login_required
+def update_task_status(task_id):
+    task = Task.query.get_or_404(task_id)
+    if current_user not in task.group.members:
+        flash('You are not a member of this group.')
+        return redirect(url_for('home_page'))
+
+    form = TaskStatusForm()
+    if form.validate_on_submit():
+        task.status = form.status.data
+        db.session.commit()
+        flash('Task status updated.')
+    else:
+        flash('Please select a valid task status.')
+    return redirect(url_for('group_page', group_id=task.group_id))

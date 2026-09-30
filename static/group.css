@@ -142,6 +142,44 @@ header a:hover {
     font-weight: bold;
 }
 
+.task-status-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.task-status-form label {
+    color: #3d1f2b;
+    font-weight: bold;
+}
+
+.task-status-form select {
+    min-width: 140px;
+    padding: 9px 12px;
+    color: #3d1f2b;
+    background: white;
+    border: 1px solid #ffb3cc;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.task-status-form button {
+    padding: 9px 14px;
+    color: white;
+    background: #ff006f;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.task-status-form button:hover {
+    background: #dd336a;
+}
+
 @media (max-width: 480px) {
     header {
         flex-wrap: wrap;
