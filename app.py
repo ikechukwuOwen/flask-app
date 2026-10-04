@@ -1,13 +1,22 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_mail import Mail
 import os
 from datetime import timedelta
 from flask_migrate import Migrate
 
 
-
 app = Flask(__name__)
+app.config.update(
+    MAIL_SERVER=os.environ.get("MAIL_SERVER", "smtp-relay.brevo.com"),
+    MAIL_PORT=int(os.environ.get("MAIL_PORT", 587)),
+    MAIL_USE_TLS=True,
+    MAIL_USERNAME=os.environ.get("MAIL_USERNAME"),
+    MAIL_PASSWORD=os.environ.get("MAIL_PASSWORD"),
+    MAIL_DEFAULT_SENDER=os.environ.get("MAIL_DEFAULT_SENDER"),
+)
+mail = Mail(app)
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-only-key")
 
