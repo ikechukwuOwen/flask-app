@@ -1,5 +1,7 @@
-from app import app, db, login_manager
+from app import app, db, login_manager, mail
 from flask import  render_template, flash, redirect, url_for, request
+from flask_mail import Message
+import smtplib
 from forms import SignUP, Login, CreateGroup, JoinGroup, CreateTask, TaskStatusForm
 from models import User, Group, Task
 from flask_login import login_user, login_required, current_user, logout_user
@@ -143,7 +145,27 @@ def create_task(group_id):
         )
         db.session.add(task)
         db.session.commit()
-        flash('Task created successfully!')
+        message = Message(
+            subject=f"New task assigned: {task.title}",
+            recipients=[task.assignee.email],
+            body=(
+                f"Hello {task.assignee.username},\n\n"
+                f"You have been assigned a task in the group {group.name}.\n\n"
+                f"Task: {task.title}\n"
+                f"Description: {task.description}\n"
+                f"Due date: {task.due_date}\n"
+            )
+        )
+        try:
+            mail.send(message)
+        except (smtplib.SMTPException, OSError):
+            app.logger.exception(
+                "Task %s was created, but its assignment email could not be sent.",
+                task.id
+            )
+            flash('Task created, but its email notification could not be sent.')
+        else:
+            flash('Task created and assignment email sent!')
         return redirect(url_for('group_page', group_id=group.id))
     
     return render_template('create_task.html', form=form, group=group)
